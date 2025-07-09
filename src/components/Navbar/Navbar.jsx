@@ -1,15 +1,34 @@
-import { Link, NavLink } from "react-router"; // Fixed incorrect import
+import { Link, NavLink, useNavigate } from "react-router"; // Fixed incorrect import
 import { FaUserCircle } from "react-icons/fa";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import Logo from "../Logo/Logo";
+import { useAuth } from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
-  const user = true;
+  const { user, logOut } = useAuth();
   const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
+
+  //   console.log(user);
 
   const handleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  // handle logout
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          title: "Logout successfully",
+          icon: "success",
+          draggable: true,
+        });
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
   };
 
   const navLinks = (
@@ -100,16 +119,13 @@ const Navbar = () => {
                 )}
               </div>
             </div>
-            <ul
+            <button
               tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              onClick={() => handleLogout()}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 text-accent shadow"
             >
-              <li>
-                <button className="font-semibold border border-secondary">
-                  Logout
-                </button>
-              </li>
-            </ul>
+              Logout
+            </button>
           </div>
         )}
       </div>
