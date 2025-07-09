@@ -11,6 +11,7 @@ import AuthContext from "../../contexts/auth/AuthContext";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
+import LoadingPage from "../../components/LoadingPage/LoadingPage";
 
 const Signup = () => {
   const { user, loading, registerUser, profileUpdate } = useAuth();
@@ -25,6 +26,14 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
+
+  if (loading) {
+    return <LoadingPage />;
+  }
+
+  if (user) {
+    navigate(location?.state || "/");
+  }
 
   const handleImageUpload = async (e) => {
     try {
