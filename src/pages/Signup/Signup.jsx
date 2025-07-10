@@ -14,7 +14,8 @@ import Swal from "sweetalert2";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
 
 const Signup = () => {
-  const { user, loading, registerUser, profileUpdate } = useAuth();
+  const { user, loading, registerUser, profileUpdate, signInWithGoogle } =
+    useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -95,6 +96,27 @@ const Signup = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  //   handle signin with google
+  const handleSignInWithGoogle = () => {
+    signInWithGoogle()
+      .then(() => {
+        Swal.fire({
+          title: "Login successfully",
+          icon: "success",
+          draggable: true,
+        });
+        navigate(location?.state || "/");
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Login failed",
+          icon: "error",
+          draggable: true,
+        });
+        console.log(err);
+      });
   };
 
   return (
@@ -269,7 +291,7 @@ const Signup = () => {
           {/* Social Login */}
           <div className="flex flex-col gap-2">
             <button
-              onClick={() => console.log("Google Login")}
+              onClick={handleSignInWithGoogle}
               className="btn btn-outline gap-2 hover:shadow-sm transition-all"
               disabled={isLoading}
             >
