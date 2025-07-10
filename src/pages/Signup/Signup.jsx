@@ -121,6 +121,7 @@ const Signup = () => {
           });
 
           if (data?.exists) {
+            Swal.fire("Login successfully");
             navigate(location?.state || "/");
           } else {
             const userData = {
