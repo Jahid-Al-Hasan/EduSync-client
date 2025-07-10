@@ -1,8 +1,11 @@
 import React from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure.jsx";
+import { useAuth } from "../../hooks/useAuth.js";
 
 const Home = () => {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  console.log(user);
 
   const handleCheck = async () => {
     try {

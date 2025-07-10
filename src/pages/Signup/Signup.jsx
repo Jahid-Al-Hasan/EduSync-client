@@ -7,11 +7,11 @@ import {
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import AuthContext from "../../contexts/auth/AuthContext";
 import { useAuth } from "../../hooks/useAuth";
-import axios from "axios";
 import Swal from "sweetalert2";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
+import useAxios from "../../hooks/useAxios";
+import axios from "axios";
 
 const Signup = () => {
   const { user, loading, registerUser, profileUpdate, signInWithGoogle } =
@@ -27,6 +27,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
+  const axiosInstance = useAxios();
 
   if (loading) {
     return <LoadingPage />;
@@ -36,6 +37,7 @@ const Signup = () => {
     navigate(location?.state || "/");
   }
 
+  // upload image on imgbb
   const handleImageUpload = async (e) => {
     try {
       const file = e.target.files[0];
@@ -53,26 +55,33 @@ const Signup = () => {
     }
   };
 
+  // register using email and password
   const onSubmit = async (data) => {
     setIsLoading(true);
-    console.log(data);
+    // console.log(data);
     try {
       const userCredential = await registerUser(data.email, data.password);
 
-      if (userCredential.user) {
+      if (userCredential?.user) {
         const userData = {
           email: data.email,
           role: selectedRole,
-          lastSignIn: new Date().toISOString(),
         };
 
-        const userRes = await axios.post(
-          "http://localhost:3000/api/registerUser",
-          userData
+        const token = userCredential?.user?.accessToken;
+
+        const userRes = await axiosInstance.post(
+          "/api/registerUser",
+          userData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         if (!userRes.data.insertedId) {
-          Swal.fire("Firebase registration failed!");
+          Swal.fire("Server registration failed!");
         } else {
           if (data.name || previewUrl) {
             profileUpdate(data.name, previewUrl).catch((err) => {
@@ -101,19 +110,53 @@ const Signup = () => {
   //   handle signin with google
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
-      .then(() => {
-        Swal.fire({
-          title: "Login successfully",
-          icon: "success",
-          draggable: true,
-        });
-        navigate(location?.state || "/");
+      .then(async (res) => {
+        try {
+          const token = res?.user?.accessToken;
+
+          const { data } = await axiosInstance.get("/api/user", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (data?.exists) {
+            navigate(location?.state || "/");
+          } else {
+            const userData = {
+              email: res.user?.email,
+              role: "student",
+            };
+
+            const userRes = await axiosInstance.post(
+              "/api/registerUser",
+              userData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (!userRes.data.insertedId) {
+              Swal.fire("Server registration failed!");
+            } else {
+              Swal.fire({
+                title: "Register successfully",
+                icon: "success",
+              });
+              navigate(location?.state || "/");
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          Swal.fire("Register failed");
+        }
       })
       .catch((err) => {
         Swal.fire({
           title: "Login failed",
           icon: "error",
-          draggable: true,
         });
         console.log(err);
       });

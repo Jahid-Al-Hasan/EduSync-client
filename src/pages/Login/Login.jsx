@@ -5,6 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
+import useAxios from "../../hooks/useAxios";
 
 const Login = () => {
   const {
@@ -16,6 +17,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const axiosInstance = useAxios();
 
   if (loading) {
     return <LoadingPage />;
@@ -28,19 +30,54 @@ const Login = () => {
   //   handle signin with google
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
-      .then(() => {
-        Swal.fire({
-          title: "Login successfully",
-          icon: "success",
-          draggable: true,
-        });
-        navigate(location?.state || "/");
+      .then(async (res) => {
+        try {
+          const token = res?.user?.accessToken;
+
+          const { data } = await axiosInstance.get("/api/user", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (data?.exists) {
+            Swal.fire("Login successfully");
+            navigate(location?.state || "/");
+          } else {
+            const userData = {
+              email: res.user?.email,
+              role: "student",
+            };
+
+            const userRes = await axiosInstance.post(
+              "/api/registerUser",
+              userData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (!userRes.data.insertedId) {
+              Swal.fire("Server registration failed!");
+            } else {
+              Swal.fire({
+                title: "Register successfully",
+                icon: "success",
+              });
+              navigate(location?.state || "/");
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          Swal.fire("Register failed");
+        }
       })
       .catch((err) => {
         Swal.fire({
           title: "Login failed",
           icon: "error",
-          draggable: true,
         });
         console.log(err);
       });
@@ -55,7 +92,6 @@ const Login = () => {
           Swal.fire({
             title: "Login successfully",
             icon: "success",
-            draggable: true,
           });
           navigate(location?.state || "/");
         })
@@ -63,7 +99,6 @@ const Login = () => {
           Swal.fire({
             title: "Login failed",
             icon: "error",
-            draggable: true,
           });
           console.log(err);
         });
