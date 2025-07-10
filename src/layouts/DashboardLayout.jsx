@@ -57,9 +57,9 @@ const DashboardLayout = () => {
   const links = (
     <>
       <li>
-        <NavLink to="/dashboard" className="flex items-center gap-3">
+        <NavLink to="/" className="flex items-center gap-3">
           <Home className="w-5 h-5" />
-          Dashboard
+          Home
         </NavLink>
       </li>
       <li>
