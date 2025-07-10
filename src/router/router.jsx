@@ -6,12 +6,16 @@ import Login from "../pages/Login/Login";
 import DashboardLayout from "../layouts/DashboardLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import PrivateRoute from "../routes/PrivateRoutes";
+import StudySessionsPage from "../pages/StudySessionsPage/StudySessionsPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
-    children: [{ index: true, Component: Home }],
+    children: [
+      { index: true, Component: Home },
+      { path: "study-sessions", Component: StudySessionsPage },
+    ],
   },
   {
     path: "/",
