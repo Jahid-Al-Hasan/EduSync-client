@@ -7,6 +7,8 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import PrivateRoute from "../routes/PrivateRoutes";
 import StudySessionsPage from "../pages/StudySessionsPage/StudySessionsPage";
+import SessionDetailsPage from "../pages/SessionDetailsPage/SessionDetailsPage";
+import ErrorPage from "../pages/Error/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +16,10 @@ const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       { index: true, Component: Home },
-      { path: "study-sessions", Component: StudySessionsPage },
+      { path: "study-sessions/", Component: StudySessionsPage },
+      { path: "sessions/:id", Component: SessionDetailsPage },
     ],
+    errorElement: <ErrorPage />,
   },
   {
     path: "/",
