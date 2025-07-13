@@ -13,7 +13,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { user, loading, signIn, signInWithGoogle } = useAuth();
+  const { user, refreshUser, loading, signIn, signInWithGoogle } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -62,6 +62,7 @@ const Login = () => {
             if (!userRes.data.insertedId) {
               Swal.fire("Server registration failed!");
             } else {
+              refreshUser();
               Swal.fire({
                 title: "Register successfully",
                 icon: "success",

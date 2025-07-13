@@ -12,11 +12,16 @@ import Swal from "sweetalert2";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
 import useAxios from "../../hooks/useAxios";
 import axios from "axios";
-import auth from "../../../firebase.config";
 
 const Signup = () => {
-  const { user, loading, registerUser, profileUpdate, signInWithGoogle } =
-    useAuth();
+  const {
+    user,
+    loading,
+    registerUser,
+    profileUpdate,
+    signInWithGoogle,
+    refreshUser,
+  } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -86,9 +91,9 @@ const Signup = () => {
       if (!userRes?.data?.insertedId) {
         Swal.fire("Registration failed on server");
       } else {
+        refreshUser();
         Swal.fire("User registered successfully");
         reset();
-        await auth.currentUser.reload();
       }
     } catch (error) {
       Swal.fire(error.message);
@@ -132,10 +137,12 @@ const Signup = () => {
             if (!userRes.data.insertedId) {
               Swal.fire("Server registration failed!");
             } else {
+              refreshUser();
               Swal.fire({
                 title: "Register successfully",
                 icon: "success",
               });
+
               navigate(location?.state || "/");
             }
           }

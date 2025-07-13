@@ -30,12 +30,13 @@ const AuthProvider = ({ children }) => {
   const profileUpdate = async (displayName, photoURL) => {
     setLoading(true);
     try {
-      return await updateProfile(auth.currentUser, {
-        displayName: displayName,
-        photoURL: photoURL,
+      await updateProfile(auth.currentUser, {
+        displayName,
+        photoURL,
       });
+      await refreshUser();
     } catch (error) {
-      console.log(error.message);
+      console.error("Profile update failed:", error.message);
     } finally {
       setLoading(false);
     }
@@ -44,9 +45,16 @@ const AuthProvider = ({ children }) => {
   // signin with google
   const signInWithGoogle = async () => {
     setLoading(true);
-    return signInWithPopup(auth, googleProvider).finally(() =>
-      setLoading(false)
-    );
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      return result;
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+      refreshUser();
+    }
   };
 
   // signin user
@@ -61,6 +69,21 @@ const AuthProvider = ({ children }) => {
   const logOut = () => {
     setLoading(true);
     return signOut(auth).finally(() => setLoading(false));
+  };
+
+  // refresh user
+  const refreshUser = async () => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      const token = await currentUser.getIdToken();
+      const res = await axiosInstance.get("/api/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUser({
+        ...currentUser,
+        role: res.data.role || null,
+      });
+    }
   };
 
   useEffect(() => {
@@ -102,6 +125,8 @@ const AuthProvider = ({ children }) => {
     registerUser,
     profileUpdate,
     logOut,
+    setUser,
+    refreshUser,
   };
   return <AuthContext value={userInfo}>{children}</AuthContext>;
 };

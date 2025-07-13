@@ -36,8 +36,6 @@ const SessionDetailsPage = () => {
     enabled: !!id,
   });
 
-  console.log(session);
-
   const {
     data: reviews = [],
     isLoading: loadingReviews,
