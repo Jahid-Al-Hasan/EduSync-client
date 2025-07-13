@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import useAxios from "../../hooks/useAxios";
 import { useState } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const SessionDetailsPage = () => {
   const axiosInstance = useAxios();
@@ -18,6 +19,7 @@ const SessionDetailsPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [booking, setBooking] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   const {
     data: session,
@@ -26,11 +28,15 @@ const SessionDetailsPage = () => {
   } = useQuery({
     queryKey: ["session", id],
     queryFn: async () => {
-      const { data } = await axiosInstance.get(`/api/sessions/${id}`);
+      const { data } = await axiosInstance.get(
+        `/api/sessions/${id}?studentEmail=${user?.email}`
+      );
       return data;
     },
     enabled: !!id,
   });
+
+  console.log(session);
 
   const {
     data: reviews = [],
@@ -48,14 +54,16 @@ const SessionDetailsPage = () => {
   const loading = loadingSession || loadingReviews;
 
   const handleBookSession = async () => {
-    if (!user || user.role !== "student") return;
-    setBooking(true); // ✅ Added
+    if (!user || user.role !== "student") {
+      navigate("/login");
+    }
+    setBooking(true);
 
     try {
       if (session.registrationFee > 0) {
         navigate(`/payment/${session._id}`);
       } else {
-        await axiosInstance.post("/api/bookings", {
+        await axiosSecure.post("/api/booking", {
           sessionId: session._id,
           studentEmail: user.email,
           tutorEmail: session.tutorEmail,
@@ -66,15 +74,13 @@ const SessionDetailsPage = () => {
     } catch (error) {
       console.error("Booking failed:", error);
     } finally {
-      setBooking(false); // ✅ Added
+      setBooking(false);
     }
   };
 
-  // ❌ If still loading
   if (loading)
     return <div className="text-center py-8">Loading session details...</div>;
 
-  // ❌ If no session found
   if (sessionError) {
     return (
       <div className="text-center py-8 text-red-500">
@@ -83,7 +89,6 @@ const SessionDetailsPage = () => {
     );
   }
 
-  // ❌ If no session found
   if (reviewsError) {
     return (
       <div className="text-center py-8 text-red-500">
@@ -184,13 +189,19 @@ const SessionDetailsPage = () => {
               </div>
 
               <div className="card-actions justify-end mt-6">
-                <button
-                  onClick={handleBookSession}
-                  disabled={!canBook || booking}
-                  className={`btn btn-primary ${booking ? "loading" : ""}`}
-                >
-                  {booking ? "Processing..." : "Book Now"}
-                </button>
+                {!session?.isBooked ? (
+                  <button
+                    onClick={handleBookSession}
+                    disabled={!canBook || booking}
+                    className={`btn btn-primary ${booking ? "loading" : ""}`}
+                  >
+                    {booking ? "Processing..." : "Book Now"}
+                  </button>
+                ) : (
+                  <button disabled className={`btn btn-accent `}>
+                    Already Booked
+                  </button>
+                )}
               </div>
             </div>
           </div>

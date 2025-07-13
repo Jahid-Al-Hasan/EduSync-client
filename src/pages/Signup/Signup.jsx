@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import LoadingPage from "../../components/LoadingPage/LoadingPage";
 import useAxios from "../../hooks/useAxios";
 import axios from "axios";
+import auth from "../../../firebase.config";
 
 const Signup = () => {
   const { user, loading, registerUser, profileUpdate, signInWithGoogle } =
@@ -58,47 +59,36 @@ const Signup = () => {
   // register using email and password
   const onSubmit = async (data) => {
     setIsLoading(true);
-    // console.log(data);
     try {
       const userCredential = await registerUser(data.email, data.password);
 
-      if (userCredential?.user) {
-        const userData = {
-          email: data.email,
-          role: selectedRole,
-        };
+      if (!userCredential || !userCredential.user) {
+        Swal.fire("Firebase Registration failed");
+        return;
+      }
 
-        const token = userCredential?.user?.accessToken;
+      // ✅ Update profile and wait for it
+      await profileUpdate(data.name, previewUrl);
 
-        const userRes = await axiosInstance.post(
-          "/api/registerUser",
-          userData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      const userData = {
+        email: data.email,
+        role: selectedRole,
+      };
 
-        if (!userRes.data.insertedId) {
-          Swal.fire("Server registration failed!");
-        } else {
-          if (data.name || previewUrl) {
-            profileUpdate(data.name, previewUrl).catch((err) => {
-              console.log(err);
-              Swal.fire("Registration failed");
-            });
-            Swal.fire({
-              title: "Register successfully",
-              icon: "success",
-              draggable: true,
-            });
-            reset();
-            navigate(location?.state || "/");
-          }
-        }
+      const token = await userCredential.user.getIdToken();
+
+      const userRes = await axiosInstance.post("/api/registerUser", userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!userRes?.data?.insertedId) {
+        Swal.fire("Registration failed on server");
       } else {
-        Swal.fire("Registration failed");
+        Swal.fire("User registered successfully");
+        reset();
+        await auth.currentUser.reload();
       }
     } catch (error) {
       Swal.fire(error.message);
