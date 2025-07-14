@@ -12,6 +12,9 @@ import ErrorPage from "../pages/Error/ErrorPage";
 import ForbiddenPage from "../components/Forbidden/Forbidden";
 import StudentRoute from "../routes/StudentRoute";
 import BookedSessionsPage from "../pages/StudentDashboard/BookedSessionsPage/BookedSessionsPage";
+import TutorRoute from "../routes/TutorRoute";
+import CreateSession from "../pages/TutorDashboard/CreateSession/CreateSession";
+import MySessions from "../pages/TutorDashboard/MySessions/MySessions";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +50,22 @@ const router = createBrowserRouter([
           <StudentRoute>
             <BookedSessionsPage />
           </StudentRoute>
+        ),
+      },
+      {
+        path: "create-session",
+        element: (
+          <TutorRoute>
+            <CreateSession />
+          </TutorRoute>
+        ),
+      },
+      {
+        path: "my-sessions",
+        element: (
+          <TutorRoute>
+            <MySessions />
+          </TutorRoute>
         ),
       },
     ],
