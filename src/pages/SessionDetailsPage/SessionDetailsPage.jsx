@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Calendar,
   Clock,
@@ -20,6 +20,7 @@ const SessionDetailsPage = () => {
   const navigate = useNavigate();
   const [booking, setBooking] = useState(false);
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
 
   const {
     data: session,
@@ -51,7 +52,31 @@ const SessionDetailsPage = () => {
 
   const loading = loadingSession || loadingReviews;
 
-  console.log(session);
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(5);
+  const [submittingReview, setSubmittingReview] = useState(false);
+
+  const handleReviewSubmit = async () => {
+    if (!comment || !rating) return;
+    setSubmittingReview(true);
+    try {
+      await axiosSecure.post("/api/reviews", {
+        sessionId: id,
+        studentEmail: user.email,
+        studentName: user.displayName,
+        rating,
+        comment,
+        createdAt: new Date().toISOString(),
+      });
+      setComment("");
+      setRating(5);
+      queryClient.invalidateQueries(["reviews", id]);
+    } catch (error) {
+      console.error("Review submission failed:", error);
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
 
   const handleBookSession = async () => {
     if (!user || user.role !== "student") {
@@ -102,7 +127,6 @@ const SessionDetailsPage = () => {
     );
   }
 
-  // Business logic
   const currentDate = new Date();
   const isRegistrationOpen =
     new Date(session.registrationStart) <= currentDate &&
@@ -203,7 +227,7 @@ const SessionDetailsPage = () => {
                     {booking ? "Processing..." : "Book Now"}
                   </button>
                 ) : (
-                  <button disabled className={`btn btn-accent `}>
+                  <button disabled className={`btn btn-accent`}>
                     Already Booked
                   </button>
                 )}
@@ -250,6 +274,46 @@ const SessionDetailsPage = () => {
               <div className="text-center py-8">
                 <MessageSquare className="w-12 h-12 mx-auto opacity-50 mb-4" />
                 <p>No reviews yet</p>
+              </div>
+            )}
+
+            {session?.isBooked && user?.role === "student" && (
+              <div className="mt-8">
+                <h2 className="text-xl font-semibold mb-2">Leave a Review</h2>
+                <div className="form-control space-y-4">
+                  <div className="flex items-center gap-2">
+                    <span className="label-text">Your Rating:</span>
+                    {[...Array(5)].map((_, index) => (
+                      <Star
+                        key={index}
+                        className={`w-6 h-6 cursor-pointer ${
+                          index < rating ? "text-yellow-400" : "text-gray-400"
+                        }`}
+                        onClick={() => setRating(index + 1)}
+                      />
+                    ))}
+                  </div>
+                  <div>
+                    <label className="label">
+                      <span className="label-text">Comment</span>
+                    </label>
+                    <textarea
+                      className="textarea textarea-bordered w-full"
+                      rows="3"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    ></textarea>
+                  </div>
+                  <button
+                    className={`btn btn-primary ${
+                      submittingReview ? "loading" : ""
+                    }`}
+                    onClick={handleReviewSubmit}
+                    disabled={submittingReview || !comment.trim()}
+                  >
+                    Submit Review
+                  </button>
+                </div>
               </div>
             )}
           </div>
