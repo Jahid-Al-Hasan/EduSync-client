@@ -51,6 +51,8 @@ const SessionDetailsPage = () => {
 
   const loading = loadingSession || loadingReviews;
 
+  console.log(session);
+
   const handleBookSession = async () => {
     if (!user || user.role !== "student") {
       navigate("/login");
@@ -64,10 +66,15 @@ const SessionDetailsPage = () => {
         await axiosSecure.post("/api/booking", {
           sessionId: session._id,
           studentEmail: user.email,
+          studentName: user.displayName,
           tutorEmail: session.tutorEmail,
-          ...session,
+          tutorName: session.tutorName,
+          registrationFee: session.registrationFee,
+          sessionTitle: session.title,
+          classStart: session.classStart,
+          classEnd: session.classEnd,
         });
-        navigate("/dashboard/my-sessions");
+        navigate("/dashboard/booked-sessions");
       }
     } catch (error) {
       console.error("Booking failed:", error);
