@@ -18,6 +18,7 @@ import MySessions from "../pages/TutorDashboard/MySessions/MySessions";
 import UploadMaterials from "../pages/TutorDashboard/UploadMaterials/UploadMaterials";
 import ViewMaterials from "../pages/TutorDashboard/ViewMaterials/ViewMaterials";
 import CreateNote from "../pages/StudentDashboard/CreateNote/CreateNote";
+import ManageNotes from "../pages/StudentDashboard/ManageNotes/ManageNotes";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,14 @@ const router = createBrowserRouter([
         element: (
           <StudentRoute>
             <CreateNote />
+          </StudentRoute>
+        ),
+      },
+      {
+        path: "all-notes",
+        element: (
+          <StudentRoute>
+            <ManageNotes />
           </StudentRoute>
         ),
       },

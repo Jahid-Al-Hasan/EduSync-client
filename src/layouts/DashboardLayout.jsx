@@ -94,7 +94,10 @@ const DashboardLayout = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/notes" className="flex items-center gap-3">
+            <NavLink
+              to="/dashboard/all-notes"
+              className="flex items-center gap-3"
+            >
               <Notebook className="w-5 h-5" />
               My Notes
             </NavLink>

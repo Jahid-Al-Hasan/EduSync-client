@@ -3,11 +3,13 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const CreateNote = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -32,6 +34,7 @@ const CreateNote = () => {
       queryClient.invalidateQueries(["user-notes"]);
       Swal.fire("Success!", "Your note has been created.", "success");
       reset();
+      navigate("/dashboard/all-notes");
     },
     onError: (error) => {
       console.error("Error creating note:", error);
