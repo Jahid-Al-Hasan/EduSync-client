@@ -19,6 +19,7 @@ import UploadMaterials from "../pages/TutorDashboard/UploadMaterials/UploadMater
 import ViewMaterials from "../pages/TutorDashboard/ViewMaterials/ViewMaterials";
 import CreateNote from "../pages/StudentDashboard/CreateNote/CreateNote";
 import ManageNotes from "../pages/StudentDashboard/ManageNotes/ManageNotes";
+import StudyMaterials from "../pages/StudentDashboard/StudyMaterials/StudyMaterials";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      // student routes
       {
         path: "booked-sessions",
         element: (
@@ -72,6 +74,15 @@ const router = createBrowserRouter([
           </StudentRoute>
         ),
       },
+      {
+        path: "study-materials",
+        element: (
+          <StudentRoute>
+            <StudyMaterials />
+          </StudentRoute>
+        ),
+      },
+      // tutor routes
       {
         path: "create-session",
         element: (

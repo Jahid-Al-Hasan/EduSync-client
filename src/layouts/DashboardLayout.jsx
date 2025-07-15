@@ -111,15 +111,6 @@ const DashboardLayout = () => {
               Study Materials
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/dashboard/classmates"
-              className="flex items-center gap-3"
-            >
-              <Users className="w-5 h-5" />
-              Classmates
-            </NavLink>
-          </li>
         </>
       )}
 
@@ -163,15 +154,6 @@ const DashboardLayout = () => {
             >
               <Library className="w-5 h-5" />
               All Materials
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard/students"
-              className="flex items-center gap-3"
-            >
-              <Users className="w-5 h-5" />
-              My Students
             </NavLink>
           </li>
         </>
