@@ -15,6 +15,7 @@ import BookedSessionsPage from "../pages/StudentDashboard/BookedSessionsPage/Boo
 import TutorRoute from "../routes/TutorRoute";
 import CreateSession from "../pages/TutorDashboard/CreateSession/CreateSession";
 import MySessions from "../pages/TutorDashboard/MySessions/MySessions";
+import UploadMaterials from "../pages/TutorDashboard/UploadMaterials/UploadMaterials";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,14 @@ const router = createBrowserRouter([
         element: (
           <TutorRoute>
             <MySessions />
+          </TutorRoute>
+        ),
+      },
+      {
+        path: "upload-materials",
+        element: (
+          <TutorRoute>
+            <UploadMaterials />
           </TutorRoute>
         ),
       },

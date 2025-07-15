@@ -24,7 +24,7 @@ const MySessions = () => {
   const resubmitSession = useMutation({
     mutationFn: async (sessionId) => {
       const { data } = await axiosSecure.patch(
-        `/api/sessions/${sessionId}/resubmit`,
+        `/api/sessions/resubmit/${sessionId}`,
         {
           status: "pending",
         }
