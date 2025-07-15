@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import axios from "axios";
 
 const UploadMaterials = () => {
   const { user } = useAuth();
@@ -50,15 +51,10 @@ const UploadMaterials = () => {
 
     try {
       // Upload to ImgBB or your preferred image hosting service
-      const response = await axiosSecure.post(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_IMGBB_API
+      }`;
+      const response = await axios.post(imageUploadUrl, formData);
       setImageUrl(response.data.data.url);
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -71,6 +67,7 @@ const UploadMaterials = () => {
     const formData = {
       title: e.target.title.value,
       sessionId: selectedSession._id,
+      sessionTitle: selectedSession.title,
       tutorEmail: user.email,
       imageUrl,
       driveLink: e.target.driveLink.value,
