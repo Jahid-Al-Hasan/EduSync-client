@@ -20,6 +20,8 @@ import ViewMaterials from "../pages/TutorDashboard/ViewMaterials/ViewMaterials";
 import CreateNote from "../pages/StudentDashboard/CreateNote/CreateNote";
 import ManageNotes from "../pages/StudentDashboard/ManageNotes/ManageNotes";
 import StudyMaterials from "../pages/StudentDashboard/StudyMaterials/StudyMaterials";
+import AdminRoute from "../routes/AdminRoute";
+import ManageUsers from "../pages/AdminDashboard/ManageUsers/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +115,15 @@ const router = createBrowserRouter([
           <TutorRoute>
             <ViewMaterials />
           </TutorRoute>
+        ),
+      },
+      // admin route
+      {
+        path: "manage-users",
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
         ),
       },
     ],

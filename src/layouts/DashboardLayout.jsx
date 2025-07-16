@@ -168,7 +168,10 @@ const DashboardLayout = () => {
 
           {/* User Management */}
           <li>
-            <NavLink to="/admin/users" className="flex items-center gap-3">
+            <NavLink
+              to="/dashboard/manage-users"
+              className="flex items-center gap-3"
+            >
               <UserCog className="w-5 h-5" />
               Manage Users
               <span className="badge badge-sm badge-info ml-auto">New</span>
