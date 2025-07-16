@@ -180,14 +180,17 @@ const DashboardLayout = () => {
 
           {/* Session Management */}
           <li>
-            <NavLink to="/admin/sessions" className="flex items-center gap-3">
+            <NavLink
+              to="/dashboard/sessions"
+              className="flex items-center gap-3"
+            >
               <CalendarSearch className="w-5 h-5" />
               All Study Sessions
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/admin/session-approvals"
+              to="/dashboard/session-approvals"
               className="flex items-center gap-3"
             >
               <CalendarCheck className="w-5 h-5" />
@@ -198,14 +201,17 @@ const DashboardLayout = () => {
 
           {/* Content Management */}
           <li>
-            <NavLink to="/admin/materials" className="flex items-center gap-3">
+            <NavLink
+              to="/dashboard/materials"
+              className="flex items-center gap-3"
+            >
               <LibraryBig className="w-5 h-5" />
               All Materials
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/admin/content-review"
+              to="/dashboard/content-review"
               className="flex items-center gap-3"
             >
               <FileSearch className="w-5 h-5" />
@@ -216,7 +222,7 @@ const DashboardLayout = () => {
           {/* System Management */}
           <li>
             <NavLink
-              to="/admin/announcements"
+              to="/dashboard/announcements"
               className="flex items-center gap-3"
             >
               <Megaphone className="w-5 h-5" />
@@ -224,7 +230,10 @@ const DashboardLayout = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin/settings" className="flex items-center gap-3">
+            <NavLink
+              to="/dashboard/settings"
+              className="flex items-center gap-3"
+            >
               <Settings className="w-5 h-5" />
               System Settings
             </NavLink>

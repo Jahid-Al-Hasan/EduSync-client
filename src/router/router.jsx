@@ -22,6 +22,7 @@ import ManageNotes from "../pages/StudentDashboard/ManageNotes/ManageNotes";
 import StudyMaterials from "../pages/StudentDashboard/StudyMaterials/StudyMaterials";
 import AdminRoute from "../routes/AdminRoute";
 import ManageUsers from "../pages/AdminDashboard/ManageUsers/ManageUsers";
+import AllSessions from "../pages/AdminDashboard/AllSessions/AllSessions";
 
 const router = createBrowserRouter([
   {
@@ -123,6 +124,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <ManageUsers />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "sessions",
+        element: (
+          <AdminRoute>
+            <AllSessions />
           </AdminRoute>
         ),
       },
