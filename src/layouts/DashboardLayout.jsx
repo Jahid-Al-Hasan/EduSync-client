@@ -184,58 +184,19 @@ const DashboardLayout = () => {
               to="/dashboard/sessions"
               className="flex items-center gap-3"
             >
-              <CalendarSearch className="w-5 h-5" />
-              All Study Sessions
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard/session-approvals"
-              className="flex items-center gap-3"
-            >
               <CalendarCheck className="w-5 h-5" />
-              Session Approvals
-              <span className="badge badge-sm badge-warning ml-auto">5</span>
+              All Study Sessions
             </NavLink>
           </li>
 
           {/* Content Management */}
           <li>
             <NavLink
-              to="/dashboard/materials"
+              to="/dashboard/manage-materials"
               className="flex items-center gap-3"
             >
               <LibraryBig className="w-5 h-5" />
               All Materials
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard/content-review"
-              className="flex items-center gap-3"
-            >
-              <FileSearch className="w-5 h-5" />
-              Content Review
-            </NavLink>
-          </li>
-
-          {/* System Management */}
-          <li>
-            <NavLink
-              to="/dashboard/announcements"
-              className="flex items-center gap-3"
-            >
-              <Megaphone className="w-5 h-5" />
-              Create Announcements
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard/settings"
-              className="flex items-center gap-3"
-            >
-              <Settings className="w-5 h-5" />
-              System Settings
             </NavLink>
           </li>
         </>

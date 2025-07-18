@@ -23,6 +23,7 @@ import StudyMaterials from "../pages/StudentDashboard/StudyMaterials/StudyMateri
 import AdminRoute from "../routes/AdminRoute";
 import ManageUsers from "../pages/AdminDashboard/ManageUsers/ManageUsers";
 import AllSessions from "../pages/AdminDashboard/AllSessions/AllSessions";
+import ManageMaterials from "../pages/AdminDashboard/ManageMaterials/ManageMaterials";
 
 const router = createBrowserRouter([
   {
@@ -132,6 +133,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AllSessions />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manage-materials",
+        element: (
+          <AdminRoute>
+            <ManageMaterials />
           </AdminRoute>
         ),
       },
