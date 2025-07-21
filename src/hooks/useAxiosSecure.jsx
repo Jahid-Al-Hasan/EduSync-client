@@ -16,7 +16,7 @@ const useAxiosSecure = () => {
     const requestInterceptor = axiosSecure.interceptors.request.use(
       (config) => {
         if (user?.accessToken) {
-          config.headers.authorization = `Bearer ${user.accessToken}`;
+          config.headers.authorization = `Bearer ${user?.accessToken}`;
         }
         return config;
       },

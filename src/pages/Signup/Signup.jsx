@@ -80,7 +80,7 @@ const Signup = () => {
         role: selectedRole,
       };
 
-      const token = await userCredential.user.getIdToken();
+      const token = await userCredential.user.accessToken;
 
       const userRes = await axiosInstance.post("/api/registerUser", userData, {
         headers: {

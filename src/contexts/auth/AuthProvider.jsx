@@ -75,7 +75,7 @@ const AuthProvider = ({ children }) => {
   const refreshUser = async () => {
     const currentUser = auth.currentUser;
     if (currentUser) {
-      const token = await currentUser.getIdToken();
+      const token = await currentUser.accessToken;
       const res = await axiosInstance.get("/api/user", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -90,7 +90,7 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         try {
-          const token = await currentUser.getIdToken();
+          const token = await currentUser?.accessToken;
 
           // ✅ Fetch user role from backend
           const res = await axiosInstance.get("/api/user", {
