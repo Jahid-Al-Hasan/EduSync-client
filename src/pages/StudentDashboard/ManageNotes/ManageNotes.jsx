@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { Edit, Trash2, Check, X, NotebookText } from "lucide-react";
+import useAxios from "../../../hooks/useAxios";
 
 const ManageNotes = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const queryClient = useQueryClient();
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ title: "", description: "" });
@@ -16,7 +16,7 @@ const ManageNotes = () => {
   const { data: notes = [], isLoading } = useQuery({
     queryKey: ["user-notes", user?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
+      const { data } = await axiosInstance.get(
         `/api/student-notes?email=${user?.email}`
       );
       return data;
@@ -26,7 +26,9 @@ const ManageNotes = () => {
   // Delete note mutation
   const deleteNote = useMutation({
     mutationFn: async (noteId) => {
-      const { data } = await axiosSecure.delete(`/api/student-notes/${noteId}`);
+      const { data } = await axiosInstance.delete(
+        `/api/student-notes/${noteId}`
+      );
       return data;
     },
     onSuccess: () => {
@@ -42,7 +44,7 @@ const ManageNotes = () => {
   // Update note mutation
   const updateNote = useMutation({
     mutationFn: async ({ id, updatedNote }) => {
-      const { data } = await axiosSecure.patch(
+      const { data } = await axiosInstance.patch(
         `/api/student-notes/${id}`,
         updatedNote
       );

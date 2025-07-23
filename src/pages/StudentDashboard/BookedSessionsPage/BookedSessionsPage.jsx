@@ -10,13 +10,13 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { format, isAfter, isBefore } from "date-fns";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import LoadingPage from "../../../components/LoadingPage/LoadingPage";
+import useAxios from "../../../hooks/useAxios";
 
 const BookedSessionsPage = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
 
   const {
     data: bookedSessions = [],
@@ -26,7 +26,7 @@ const BookedSessionsPage = () => {
   } = useQuery({
     queryKey: ["bookedSessions", user?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
+      const { data } = await axiosInstance.get(
         `/api/booked-sessions?studentEmail=${user.email}`
       );
       return data;

@@ -32,31 +32,26 @@ const Login = () => {
     signInWithGoogle()
       .then(async (res) => {
         try {
-          const token = res?.user?.accessToken;
-
-          const { data } = await axiosInstance.get("/api/user", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          await axiosInstance.post("/api/generate-jwt", {
+            email: res.user?.email,
           });
+
+          const { data } = await axiosInstance.get("/api/user");
 
           if (data?.exists) {
             Swal.fire("Login successfully");
             navigate(location?.state || "/");
           } else {
             const userData = {
+              name: res.user?.displayName,
               email: res.user?.email,
               role: "student",
+              photoURL: res.user?.photoURL || null,
             };
 
             const userRes = await axiosInstance.post(
               "/api/registerUser",
-              userData,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
+              userData
             );
 
             if (!userRes.data.insertedId) {

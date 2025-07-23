@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import axios from "axios";
+import useAxios from "../../../hooks/useAxios";
 
 const UploadMaterials = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const queryClient = useQueryClient();
   const [selectedSession, setSelectedSession] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -16,7 +16,7 @@ const UploadMaterials = () => {
   const { data: sessions = [], isLoading } = useQuery({
     queryKey: ["approved-sessions", user?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
+      const { data } = await axiosInstance.get(
         `/api/study-sessions/approved/tutor?tutorEmail=${user?.email}`
       );
       return data;
@@ -27,7 +27,10 @@ const UploadMaterials = () => {
   // Mutation to upload materials
   const uploadMaterials = useMutation({
     mutationFn: async (formData) => {
-      const { data } = await axiosSecure.post("/api/tutor-materials", formData);
+      const { data } = await axiosInstance.post(
+        "/api/tutor-materials",
+        formData
+      );
       return data;
     },
     onSuccess: () => {

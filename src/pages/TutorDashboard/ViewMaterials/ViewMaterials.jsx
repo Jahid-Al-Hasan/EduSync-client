@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { BookOpen, ExternalLink, FileImage } from "lucide-react";
+import useAxios from "../../../hooks/useAxios";
 
 const ViewMaterials = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
 
   const { data: materials = [], isLoading } = useQuery({
     queryKey: ["session-materials"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get("/api/tutor-materials");
+      const { data } = await axiosInstance.get("/api/tutor-materials");
       return data;
     },
   });

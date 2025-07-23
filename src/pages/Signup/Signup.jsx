@@ -61,7 +61,6 @@ const Signup = () => {
     }
   };
 
-  // register using email and password
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
@@ -75,17 +74,22 @@ const Signup = () => {
       // ✅ Update profile and wait for it
       await profileUpdate(data.name, previewUrl);
 
-      const userData = {
+      const jwt = await axiosInstance.post("/api/generate-jwt", {
+        email: data.email,
+      });
+
+      console.log(jwt);
+
+      if (!jwt) {
+        Swal.fire("JWT token generation failed");
+        return;
+      }
+
+      const userRes = await axiosInstance.post("/api/registerUser", {
         email: data.email,
         role: selectedRole,
-      };
-
-      const token = await userCredential.user.accessToken;
-
-      const userRes = await axiosInstance.post("/api/registerUser", userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        name: data.name,
+        photoURL: previewUrl || null,
       });
 
       if (!userRes?.data?.insertedId) {
@@ -107,31 +111,26 @@ const Signup = () => {
     signInWithGoogle()
       .then(async (res) => {
         try {
-          const token = res?.user?.accessToken;
-
-          const { data } = await axiosInstance.get("/api/user", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          await axiosInstance.post("/api/generate-jwt", {
+            email: res.user?.email,
           });
+
+          const { data } = await axiosInstance.get("/api/user");
 
           if (data?.exists) {
             Swal.fire("Login successfully");
             navigate(location?.state || "/");
           } else {
             const userData = {
+              name: res.user?.displayName,
               email: res.user?.email,
               role: "student",
+              photoURL: res.user?.photoURL || null,
             };
 
             const userRes = await axiosInstance.post(
               "/api/registerUser",
-              userData,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
+              userData
             );
 
             if (!userRes.data.insertedId) {
@@ -142,7 +141,6 @@ const Signup = () => {
                 title: "Register successfully",
                 icon: "success",
               });
-
               navigate(location?.state || "/");
             }
           }

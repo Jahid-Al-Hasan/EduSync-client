@@ -10,12 +10,12 @@ import {
 import { useNavigate } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
+import useAxios from "../../../hooks/useAxios";
 
 const CreateSession = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [requirements, setRequirements] = useState([""]);
@@ -101,7 +101,7 @@ const CreateSession = () => {
         currentStudents: 0,
       };
 
-      const { data } = await axiosSecure.post("/api/create-session", payload);
+      const { data } = await axiosInstance.post("/api/create-session", payload);
 
       if (!data) {
         Swal.fire("Failed to create session");

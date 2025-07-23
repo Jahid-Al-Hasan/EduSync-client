@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import {
@@ -12,10 +11,11 @@ import {
   ClockIcon,
 } from "lucide-react";
 import { useState } from "react";
+import useAxios from "../../../hooks/useAxios";
 
 const MySessions = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const queryClient = useQueryClient();
   const [editModal, setEditModal] = useState(null);
   const [sessionForm, setSessionForm] = useState({
@@ -32,7 +32,7 @@ const MySessions = () => {
   const { data: sessions = [], isLoading } = useQuery({
     queryKey: ["my-sessions", user?.uid],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
+      const { data } = await axiosInstance.get(
         `/api/my-sessions?tutorEmail=${user?.email}`
       );
       return data;
@@ -42,7 +42,7 @@ const MySessions = () => {
   // Mutation to resubmit rejected session
   const resubmitSession = useMutation({
     mutationFn: async (sessionId) => {
-      const { data } = await axiosSecure.patch(
+      const { data } = await axiosInstance.patch(
         `/api/sessions/resubmit/${sessionId}`,
         {
           status: "pending",
@@ -79,7 +79,7 @@ const MySessions = () => {
   // Update session mutation
   const updateSession = useMutation({
     mutationFn: async ({ sessionId, updatedData }) => {
-      const { data } = await axiosSecure.patch(
+      const { data } = await axiosInstance.patch(
         `/api/sessions/${sessionId}/tutor`,
         updatedData
       );

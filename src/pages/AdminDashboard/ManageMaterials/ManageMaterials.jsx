@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import {
   Trash2,
@@ -10,11 +9,12 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { useState } from "react";
+import useAxios from "../../../hooks/useAxios";
 
 const ITEMS_PER_PAGE = 10;
 
 const ManageMaterials = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
 
@@ -22,7 +22,7 @@ const ManageMaterials = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["all-materials", page],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
+      const { data } = await axiosInstance.get(
         `/api/materials/all?page=${page}&limit=${ITEMS_PER_PAGE}`
       );
       return data;
@@ -37,7 +37,9 @@ const ManageMaterials = () => {
   // Delete material mutation
   const deleteMaterial = useMutation({
     mutationFn: async (materialId) => {
-      const { data } = await axiosSecure.delete(`/api/materials/${materialId}`);
+      const { data } = await axiosInstance.delete(
+        `/api/materials/${materialId}`
+      );
       return data;
     },
     onSuccess: () => {

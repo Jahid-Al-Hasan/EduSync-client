@@ -30,6 +30,7 @@ const AuthProvider = ({ children }) => {
   const profileUpdate = async (displayName, photoURL) => {
     setLoading(true);
     try {
+      console.log(displayName, photoURL, auth.currentUser);
       await updateProfile(auth.currentUser, {
         displayName,
         photoURL,
@@ -66,19 +67,21 @@ const AuthProvider = ({ children }) => {
   };
 
   // logout user
-  const logOut = () => {
-    setLoading(true);
-    return signOut(auth).finally(() => setLoading(false));
+  const logOut = async () => {
+    try {
+      setLoading(true);
+      return await signOut(auth);
+    } finally {
+      axiosInstance.get("/api/clear-cookie").catch((err) => console.log(err));
+      setLoading(false);
+    }
   };
 
   // refresh user
   const refreshUser = async () => {
     const currentUser = auth.currentUser;
     if (currentUser) {
-      const token = await currentUser.accessToken;
-      const res = await axiosInstance.get("/api/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axiosInstance.get("/api/user");
       setUser({
         ...currentUser,
         role: res.data.role || null,
@@ -90,22 +93,29 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         try {
-          const token = await currentUser?.accessToken;
+          // authorization token request
+          if (currentUser?.email) {
+            const jwt = await axiosInstance.post("/api/generate-jwt", {
+              email: currentUser.email,
+            });
+            if (!jwt) {
+              logOut();
+              return;
+            }
+          }
 
-          // ✅ Fetch user role from backend
-          const res = await axiosInstance.get("/api/user", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          // Fetch user role from backend
+          const { data } = await axiosInstance.get("/api/user");
 
-          setUser({
-            ...currentUser,
-            role: res.data.role || null,
-          });
+          if (data.exists) {
+            setUser({
+              ...currentUser,
+              role: data.role || null,
+            });
+          }
         } catch (err) {
           console.error("Failed to fetch user role:", err.message);
-          setUser(null); // Clear role on error
+          setUser(null);
         }
       } else {
         setUser(null);
@@ -115,7 +125,7 @@ const AuthProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [axiosInstance]);
+  }, []);
 
   const userInfo = {
     user,

@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import useAxios from "../../../hooks/useAxios";
 
 const CreateNote = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const CreateNote = () => {
   // Mutation to create note
   const createNote = useMutation({
     mutationFn: async (noteData) => {
-      const { data } = await axiosSecure.post("/api/student-notes", noteData);
+      const { data } = await axiosInstance.post("/api/student-notes", noteData);
       return data;
     },
     onSuccess: () => {

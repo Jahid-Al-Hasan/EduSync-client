@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import useAxios from "../../hooks/useAxios";
 import { useState } from "react";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const SessionDetailsPage = () => {
   const axiosInstance = useAxios();
@@ -19,7 +18,6 @@ const SessionDetailsPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [booking, setBooking] = useState(false);
-  const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
   const {
@@ -60,7 +58,7 @@ const SessionDetailsPage = () => {
     if (!comment || !rating) return;
     setSubmittingReview(true);
     try {
-      await axiosSecure.post("/api/reviews", {
+      await axiosInstance.post("/api/reviews", {
         sessionId: id,
         studentEmail: user.email,
         studentName: user.displayName,
@@ -88,7 +86,7 @@ const SessionDetailsPage = () => {
       if (session.registrationFee > 0) {
         navigate(`/payment/${session._id}`);
       } else {
-        await axiosSecure.post("/api/booking", {
+        await axiosInstance.post("/api/booking", {
           sessionId: session._id,
           studentEmail: user.email,
           studentName: user.displayName,

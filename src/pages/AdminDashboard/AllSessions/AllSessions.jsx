@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import {
   BookOpen,
@@ -15,9 +14,10 @@ import {
   Users,
 } from "lucide-react";
 import Swal from "sweetalert2";
+import useAxios from "../../../hooks/useAxios";
 
 const AllSessions = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const queryClient = useQueryClient();
   const [approvalModal, setApprovalModal] = useState(null);
   const [editModal, setEditModal] = useState(null);
@@ -38,7 +38,7 @@ const AllSessions = () => {
   const { data: sessions = [], isLoading } = useQuery({
     queryKey: ["all-sessions"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get("/api/sessions");
+      const { data } = await axiosInstance.get("/api/sessions");
       return data;
     },
   });
@@ -46,7 +46,7 @@ const AllSessions = () => {
   // Approve session mutation
   const approveSession = useMutation({
     mutationFn: async ({ sessionId, registrationFee }) => {
-      const { data } = await axiosSecure.patch(
+      const { data } = await axiosInstance.patch(
         `/api/sessions/${sessionId}/approve`,
         {
           status: "approved",
@@ -75,7 +75,7 @@ const AllSessions = () => {
       rejectionFeedback,
     }) => {
       console.log(sessionId);
-      const { data } = await axiosSecure.patch(
+      const { data } = await axiosInstance.patch(
         `/api/sessions/${sessionId}/reject`,
         {
           status,
@@ -98,7 +98,7 @@ const AllSessions = () => {
   // Delete session mutation
   const deleteSession = useMutation({
     mutationFn: async (sessionId) => {
-      const { data } = await axiosSecure.delete(`/api/sessions/${sessionId}`);
+      const { data } = await axiosInstance.delete(`/api/sessions/${sessionId}`);
       return data;
     },
     onSuccess: () => {
@@ -114,7 +114,7 @@ const AllSessions = () => {
   // Update session mutation
   const updateSession = useMutation({
     mutationFn: async ({ sessionId, updatedData }) => {
-      const { data } = await axiosSecure.patch(
+      const { data } = await axiosInstance.patch(
         `/api/sessions/${sessionId}`,
         updatedData
       );

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import { useState } from "react";
 import {
@@ -9,17 +8,18 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
+import useAxios from "../../../hooks/useAxios";
 
 const StudyMaterials = () => {
   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const [expandedSession, setExpandedSession] = useState(null);
 
   // Fetch user's booked sessions
   const { data: bookedSessions = [], isLoading: sessionsLoading } = useQuery({
     queryKey: ["booked-sessions", user?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
+      const { data } = await axiosInstance.get(
         `/api/booked-sessions?studentEmail=${user?.email}`
       );
       return data;
@@ -31,7 +31,7 @@ const StudyMaterials = () => {
     queryKey: ["session-materials", expandedSession],
     queryFn: async () => {
       if (!expandedSession) return [];
-      const { data } = await axiosSecure.get(
+      const { data } = await axiosInstance.get(
         `/api/materials?sessionId=${expandedSession}`
       );
       return data;

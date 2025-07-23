@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useCallback, useEffect, useState } from "react";
 import { Search, User, Mail, Shield, Edit, RefreshCw } from "lucide-react";
 import Swal from "sweetalert2";
 import debounce from "lodash/debounce";
+import useAxios from "../../../hooks/useAxios";
 
 const ManageUsers = () => {
-  const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
+  const axiosInstance = useAxios();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [editingUserId, setEditingUserId] = useState(null);
@@ -30,7 +30,7 @@ const ManageUsers = () => {
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["all-users", debouncedSearch],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
+      const { data } = await axiosInstance.get(
         `/api/users?search=${debouncedSearch}`
       );
       return data;
@@ -40,7 +40,7 @@ const ManageUsers = () => {
   // Update user role mutation
   const updateRole = useMutation({
     mutationFn: async ({ userId, role }) => {
-      const { data } = await axiosSecure.patch(`/api/users/${userId}/role`, {
+      const { data } = await axiosInstance.patch(`/api/users/${userId}/role`, {
         role,
       });
       return data;
