@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import axios from "axios";
 import useAxios from "../../../hooks/useAxios";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 const UploadMaterials = () => {
   const { user } = useAuth();
@@ -11,6 +13,14 @@ const UploadMaterials = () => {
   const queryClient = useQueryClient();
   const [selectedSession, setSelectedSession] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
+
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (selectedSession && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [selectedSession]);
 
   // Fetch approved sessions for this tutor
   const { data: sessions = [], isLoading } = useQuery({
@@ -85,7 +95,7 @@ const UploadMaterials = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8">
       <div className="card bg-base-200 shadow-lg">
         <div className="card-body">
           <h1 className="card-title text-2xl md:text-3xl mb-6">
@@ -106,9 +116,18 @@ const UploadMaterials = () => {
                     key={session._id}
                     className="card bg-base-100 shadow-md hover:shadow-lg transition-shadow"
                   >
-                    <div className="card-body">
-                      <h3 className="card-title">{session.title}</h3>
-                      <p>Session ID: {session._id}</p>
+                    <div className="card-body ">
+                      <h3 className="card-title h-full">{session.title}</h3>
+                      <div className="h-full">
+                        <p>
+                          Class Start:{" "}
+                          {new Date(session.classStart).toLocaleString()}
+                        </p>
+                        <p>
+                          Class End:{" "}
+                          {new Date(session.classEnd).toLocaleString()}
+                        </p>
+                      </div>
                       <div className="card-actions justify-end">
                         <button
                           className="btn btn-primary btn-sm"
@@ -126,96 +145,121 @@ const UploadMaterials = () => {
 
           {/* Upload form (shown when session is selected) */}
           {selectedSession && (
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold mb-4">
-                Upload Materials for: {selectedSession.title}
+            <div className="mt-8 p-4 bg-base-100 rounded-lg shadow-md">
+              <h2 className="text-xl font-semibold mb-6">
+                Upload Materials for:{" "}
+                <span className="text-primary">{selectedSession.title}</span>
               </h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Title*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Materials title"
-                    className="input input-bordered"
-                    required
-                  />
+
+              <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                className="space-y-6 max-w-2xl mx-auto"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Title Field */}
+                  <div className="form-control md:col-span-2">
+                    <label className="label">
+                      <span className="label-text font-medium">Title*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="title"
+                      placeholder="Materials title"
+                      className="input input-bordered w-full"
+                      required
+                    />
+                  </div>
+
+                  {/* Session ID Field */}
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text font-medium">
+                        Study Session ID
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      value={selectedSession._id}
+                      className="input input-bordered w-full bg-base-200"
+                      readOnly
+                    />
+                  </div>
+
+                  {/* Tutor Email Field */}
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text font-medium">
+                        Tutor Email
+                      </span>
+                    </label>
+                    <input
+                      type="email"
+                      value={user.email}
+                      className="input input-bordered w-full bg-base-200"
+                      readOnly
+                    />
+                  </div>
+
+                  {/* Image Upload Field */}
+                  <div className="form-control md:col-span-2">
+                    <label className="label">
+                      <span className="label-text font-medium">
+                        Image Upload
+                      </span>
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="file-input file-input-bordered w-full"
+                    />
+                    {imageUrl && (
+                      <div className="mt-3 flex justify-center">
+                        <img
+                          src={imageUrl}
+                          alt="Preview"
+                          className="max-w-full h-auto max-h-60 rounded-lg border"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Google Drive Link */}
+                  <div className="form-control md:col-span-2">
+                    <label className="label">
+                      <span className="label-text font-medium">
+                        Google Drive Link
+                      </span>
+                    </label>
+                    <input
+                      type="url"
+                      name="driveLink"
+                      placeholder="https://drive.google.com/..."
+                      className="input input-bordered w-full"
+                    />
+                  </div>
                 </div>
 
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Study Session ID</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={selectedSession._id}
-                    className="input input-bordered"
-                    readOnly
-                  />
-                </div>
-
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Tutor Email</span>
-                  </label>
-                  <input
-                    type="email"
-                    value={user.email}
-                    className="input input-bordered"
-                    readOnly
-                  />
-                </div>
-
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Image Upload</span>
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="file-input file-input-bordered w-full"
-                  />
-                  {imageUrl && (
-                    <div className="mt-2">
-                      <img
-                        src={imageUrl}
-                        alt="Preview"
-                        className="max-w-xs max-h-40"
-                      />
-                    </div>
-                  )}
-                </div>
-
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Google Drive Link</span>
-                  </label>
-                  <input
-                    type="url"
-                    name="driveLink"
-                    placeholder="https://drive.google.com/..."
-                    className="input input-bordered"
-                  />
-                </div>
-
-                <div className="flex gap-2 justify-end">
+                {/* Form Actions */}
+                <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
                   <button
                     type="button"
-                    className="btn btn-ghost"
+                    className="btn btn-outline sm:w-32"
                     onClick={() => setSelectedSession(null)}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="btn btn-primary"
+                    className="btn btn-primary sm:w-48"
                     disabled={uploadMaterials.isLoading}
                   >
                     {uploadMaterials.isLoading ? (
-                      <span className="loading loading-spinner"></span>
+                      <>
+                        <span className="loading loading-spinner"></span>
+                        Uploading...
+                      </>
                     ) : (
                       "Upload Materials"
                     )}

@@ -47,69 +47,84 @@ const CreateNote = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8 max-w-3xl">
       <div className="card bg-base-200 shadow-lg">
         <div className="card-body">
-          <h1 className="card-title text-2xl md:text-3xl mb-6">
+          <h1 className="card-title text-2xl md:text-3xl mb-8">
             Create New Note
           </h1>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="email"
-                {...register("email")}
-                className="input input-bordered"
-                readOnly
-              />
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6">
+              {/* Email Field */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text text-base">Your Email</span>
+                </label>
+                <input
+                  type="email"
+                  {...register("email")}
+                  className="input input-bordered w-full"
+                  readOnly
+                />
+              </div>
+
+              {/* Title Field */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text text-base">Note Title*</span>
+                </label>
+                <input
+                  type="text"
+                  {...register("title", { required: "Title is required" })}
+                  placeholder="Enter note title"
+                  className="input input-bordered w-full"
+                />
+                {errors.title && (
+                  <span className="label-text-alt text-error mt-1">
+                    {errors.title.message}
+                  </span>
+                )}
+              </div>
+
+              {/* Description Field */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text text-base">Description*</span>
+                </label>
+                <textarea
+                  {...register("description", {
+                    required: "Description is required",
+                  })}
+                  placeholder="Write your detailed note here..."
+                  className="textarea textarea-bordered w-full h-40"
+                />
+                {errors.description && (
+                  <span className="label-text-alt text-error mt-1">
+                    {errors.description.message}
+                  </span>
+                )}
+              </div>
             </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Title*</span>
-              </label>
-              <input
-                type="text"
-                {...register("title", { required: "Title is required" })}
-                placeholder="Note title"
-                className="input input-bordered"
-              />
-              {errors.title && (
-                <span className="text-error text-sm">
-                  {errors.title.message}
-                </span>
-              )}
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Description*</span>
-              </label>
-              <textarea
-                {...register("description", {
-                  required: "Description is required",
-                })}
-                placeholder="Write your note here..."
-                className="textarea textarea-bordered h-32"
-              />
-              {errors.description && (
-                <span className="text-error text-sm">
-                  {errors.description.message}
-                </span>
-              )}
-            </div>
-
-            <div className="card-actions justify-end">
+            <div className="flex justify-end gap-4 mt-8">
+              <button
+                type="button"
+                onClick={() => navigate(-1)}
+                className="btn btn-ghost"
+              >
+                Cancel
+              </button>
               <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-primary px-8"
                 disabled={createNote.isLoading}
               >
                 {createNote.isLoading ? (
-                  <span className="loading loading-spinner"></span>
+                  <>
+                    <span className="loading loading-spinner"></span>
+                    Creating...
+                  </>
                 ) : (
                   "Create Note"
                 )}

@@ -26,6 +26,7 @@ const CreateSession = () => {
     title: "",
     tutorName: user?.displayName || "",
     tutorEmail: user?.email || "",
+    tutorPhoto: user?.photoURL || null,
     description: "",
     registrationStart: "",
     registrationEnd: "",
@@ -119,10 +120,10 @@ const CreateSession = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8">
       <div className="card bg-base-200 shadow-lg">
         <div className="card-body">
-          <h1 className="card-title text-2xl md:text-3xl flex items-center gap-2">
+          <h1 className="card-title text-2xl md:text-3xl flex items-center gap-2 mb-3">
             <BookOpen className="w-6 h-6" />
             Create New Study Session
           </h1>
@@ -130,22 +131,7 @@ const CreateSession = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Session Title*</span>
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  value={sessionData.title}
-                  onChange={handleChange}
-                  placeholder="Session Title"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-
-              <div className="form-control">
+              <div className="form-control  flex flex-col lg:flex-row lg:justify-between lg:items-center">
                 <label className="label">
                   <span className="label-text">Tutor Name*</span>
                 </label>
@@ -159,20 +145,50 @@ const CreateSession = () => {
                   readOnly
                 />
               </div>
+              <div className="form-control  flex flex-col lg:flex-row lg:justify-between lg:items-center">
+                <label className="label">
+                  <span className="label-text">Session Title*</span>
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  value={sessionData.title}
+                  onChange={handleChange}
+                  placeholder="Session Title"
+                  className="input input-bordered"
+                  required
+                />
+              </div>
             </div>
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Description*</span>
-              </label>
-              <textarea
-                name="description"
-                value={sessionData.description}
-                onChange={handleChange}
-                placeholder="Detailed description of what students will learn..."
-                className="textarea textarea-bordered h-32"
-                required
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="form-control  flex flex-col lg:flex-row lg:justify-between lg:items-center">
+                <label className="label">
+                  <span className="label-text">Tutor Email*</span>
+                </label>
+                <input
+                  type="text"
+                  name="tutorName"
+                  value={sessionData.tutorEmail}
+                  onChange={handleChange}
+                  className="input input-bordered"
+                  required
+                  readOnly
+                />
+              </div>
+              <div className="form-control  flex flex-col lg:flex-row lg:justify-between lg:items-center">
+                <label className="label">
+                  <span className="label-text">Description*</span>
+                </label>
+                <textarea
+                  name="description"
+                  value={sessionData.description}
+                  onChange={handleChange}
+                  placeholder="Detailed description of what students will learn..."
+                  className="textarea textarea-bordered h-32"
+                  required
+                />
+              </div>
             </div>
 
             {/* Date & Time Section */}
@@ -281,23 +297,16 @@ const CreateSession = () => {
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Registration Fee</span>
+                  <span className="label-text">Registration Fee </span>
+                  <span className="text-accent">(Set by admin)</span>
                 </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-3">$</span>
+                <div>
                   <input
-                    type="number"
                     name="registrationFee"
-                    min="0"
-                    step="0.01"
-                    value={sessionData.registrationFee}
-                    onChange={handleChange}
-                    className="input input-bordered pl-8"
-                    disabled
+                    value={`$ ${sessionData.registrationFee}`}
+                    className="input "
+                    readOnly
                   />
-                  <span className="absolute right-3 top-3 text-sm opacity-70">
-                    (Set by admin)
-                  </span>
                 </div>
               </div>
             </div>

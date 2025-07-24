@@ -110,7 +110,7 @@ const ManageNotes = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8">
       <div className="card bg-base-200 shadow-lg">
         <div className="card-body">
           <div className="flex items-center gap-2 mb-6">
@@ -173,7 +173,7 @@ const ManageNotes = () => {
                     ) : (
                       <>
                         <h2 className="card-title text-lg">{note.title}</h2>
-                        <p className="whitespace-pre-line text-gray-700">
+                        <p className="opacity-70 whitespace-pre-line ">
                           {note.description}
                         </p>
                         <div className="flex justify-end gap-2 mt-3">

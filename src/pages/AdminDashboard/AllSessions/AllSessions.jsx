@@ -142,16 +142,16 @@ const AllSessions = () => {
     });
   };
 
-  // feedback html
-  const feedbackHtml = (
-    <>
-      <div class="text-left">
+  const handleReject = (sessionId) => {
+    Swal.fire({
+      title: "Reject Session",
+      html: `<div class="text-left">
         <div class="form-control">
           <label class="label">
             <span class="label-text">Rejection Reason*</span>
           </label>
-          <select id="rejectionReason" class="select select-bordered w-full">
-            <option value="" disabled selected>
+          <select id="rejectionReason" class="select select-bordered dark:bg-gray-100 w-full">
+            <option value=""disabled selected>
               Select a reason
             </option>
             <option value="Incomplete Information">
@@ -168,19 +168,12 @@ const AllSessions = () => {
           </label>
           <textarea
             id="rejectionFeedback"
-            class="textarea textarea-bordered"
+            class="textarea textarea-bordered dark:bg-gray-100"
             placeholder="Provide additional feedback..."
             required
           ></textarea>
         </div>
-      </div>
-    </>
-  );
-
-  const handleReject = (sessionId) => {
-    Swal.fire({
-      title: "Reject Session",
-      html: feedbackHtml,
+      </div>`,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -188,8 +181,8 @@ const AllSessions = () => {
       confirmButtonText: "Confirm Rejection",
       cancelButtonText: "Cancel",
       preConfirm: () => {
-        const reason = document.getElementById("rejectionReason").value;
-        const feedback = document.getElementById("rejectionFeedback").value;
+        const reason = document.getElementById("rejectionReason")?.value;
+        const feedback = document.getElementById("rejectionFeedback")?.value;
 
         if (!reason) {
           Swal.showValidationMessage("Please select a rejection reason");
@@ -324,7 +317,7 @@ const AllSessions = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8">
       {/* Approval Modal */}
       <dialog
         id="approval_modal"

@@ -9,6 +9,7 @@ import {
   Edit,
   Calendar,
   ClockIcon,
+  Info,
 } from "lucide-react";
 import { useState } from "react";
 import useAxios from "../../../hooks/useAxios";
@@ -159,7 +160,7 @@ const MySessions = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8">
       <div className="card bg-base-200 shadow-lg">
         <div className="card-body">
           <h1 className="card-title text-2xl md:text-3xl mb-6">
@@ -227,7 +228,7 @@ const MySessions = () => {
                                 }
                               >
                                 <span className="text-error">
-                                  <XCircle className="w-4 h-4 cursor-pointer" />
+                                  <Info className="w-4 h-4 cursor-pointer" />
                                 </span>
                               </button>
                             )}

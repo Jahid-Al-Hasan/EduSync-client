@@ -65,6 +65,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "student/sessions/:id",
+        element: (
+          <StudentRoute>
+            <SessionDetailsPage />
+          </StudentRoute>
+        ),
+      },
+      {
         path: "create-note",
         element: (
           <StudentRoute>

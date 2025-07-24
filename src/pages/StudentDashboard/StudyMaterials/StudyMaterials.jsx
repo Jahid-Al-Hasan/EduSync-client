@@ -62,7 +62,7 @@ const StudyMaterials = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8">
       <div className="card bg-base-200 shadow-lg">
         <div className="card-body">
           <div className="flex items-center gap-2 mb-6">
@@ -105,47 +105,44 @@ const StudyMaterials = () => {
                         {materials.map((material) => (
                           <div
                             key={material._id}
-                            className="card bg-base-100 shadow-sm"
+                            className="card bg-base-200 shadow-sm"
                           >
                             <div className="card-body p-4">
                               <h3 className="card-title text-md">
                                 {material.title}
                               </h3>
 
-                              {material.imageUrl && (
-                                <div className="mt-2">
-                                  <div className="relative">
-                                    <img
-                                      src={material.imageUrl}
-                                      alt={material.title}
-                                      className="rounded-lg w-full h-auto max-h-48 object-contain"
-                                    />
-                                    <button
-                                      onClick={() =>
-                                        handleDownload(material.imageUrl)
-                                      }
-                                      className="btn btn-sm btn-primary absolute bottom-2 right-2"
-                                    >
-                                      <Download className="w-4 h-4 mr-1" />
-                                      Download
-                                    </button>
+                              <div className="flex  items-center gap-2">
+                                {material.imageUrl && (
+                                  <div className="mt-3">
+                                    <div className="relative">
+                                      <button
+                                        onClick={() =>
+                                          handleDownload(material.imageUrl)
+                                        }
+                                        className="btn btn-sm btn-outline"
+                                      >
+                                        <Download className="w-3 h-3 mr-1" />
+                                        Image
+                                      </button>
+                                    </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
 
-                              {material.driveLink && (
-                                <div className="mt-3">
-                                  <a
-                                    href={material.driveLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn btn-sm btn-outline w-full"
-                                  >
-                                    <Link className="w-4 h-4 mr-1" />
-                                    View on Google Drive
-                                  </a>
-                                </div>
-                              )}
+                                {material.driveLink && (
+                                  <div className="mt-3 flex-1">
+                                    <a
+                                      href={material.driveLink}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="btn btn-sm btn-outline"
+                                    >
+                                      <Link className="w-4 h-4 mr-1" />
+                                      View on Google Drive
+                                    </a>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         ))}

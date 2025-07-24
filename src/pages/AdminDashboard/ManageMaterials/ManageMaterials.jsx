@@ -85,7 +85,7 @@ const ManageMaterials = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8">
       <div className="card bg-base-200 shadow-lg">
         <div className="card-body">
           <div className="flex items-center gap-2 mb-6">

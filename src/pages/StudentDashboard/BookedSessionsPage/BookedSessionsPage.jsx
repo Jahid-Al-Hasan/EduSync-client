@@ -87,9 +87,9 @@ const BookedSessionsPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto lg:px-4 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">My Booked Sessions</h1>
+        <h1 className="text-3xl font-bold pl-2">My Booked Sessions</h1>
         <div className="text-sm">
           Showing {bookedSessions.length} session
           {bookedSessions.length !== 1 ? "s" : ""}
@@ -156,7 +156,7 @@ const BookedSessionsPage = () => {
 
                 <div className="card-actions justify-end mt-4">
                   <Link
-                    to={`/sessions/${session.sessionId}`}
+                    to={`/dashboard/student/sessions/${session.sessionId}`}
                     className="btn btn-primary btn-sm"
                   >
                     View Details <ArrowRight className="w-4 h-4 ml-1" />
