@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import useAxios from "../../hooks/useAxios";
 import { useState } from "react";
+import LoadingPage from "../../components/LoadingPage/LoadingPage";
+import { useEffect } from "react";
 
 const SessionDetailsPage = () => {
   const axiosInstance = useAxios();
@@ -24,6 +26,7 @@ const SessionDetailsPage = () => {
     data: session,
     isLoading: loadingSession,
     error: sessionError,
+    refetch,
   } = useQuery({
     queryKey: ["session", id],
     queryFn: async () => {
@@ -34,6 +37,11 @@ const SessionDetailsPage = () => {
     },
     enabled: !!id,
   });
+
+  // refetch when reload the page
+  useEffect(() => {
+    refetch();
+  }, [user]);
 
   const {
     data: reviews = [],
@@ -83,8 +91,12 @@ const SessionDetailsPage = () => {
     setBooking(true);
 
     try {
-      if (session.registrationFee > 0) {
-        navigate(`/payment/${session._id}`);
+      if (parseInt(session.registrationFee) > 0) {
+        navigate(`/dashboard/payment/${session._id}`, {
+          state: {
+            session,
+          },
+        });
       } else {
         await axiosInstance.post("/api/booking", {
           sessionId: session._id,

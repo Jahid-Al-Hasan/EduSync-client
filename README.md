@@ -30,6 +30,13 @@
 - Role-based protected routes
 - Session management with HTTP-only cookies
 
+### 🔐 Payment Integration
+
+- Seamless Stripe integration for secure payments
+- Dynamic pricing per session
+- Real-time payment status tracking
+- Automated booking confirmation upon successful payment
+
 ### 📚 Learning Tools
 
 - Interactive session booking system
