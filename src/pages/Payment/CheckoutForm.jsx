@@ -76,7 +76,7 @@ const CheckoutForm = ({ session }) => {
           }
         );
 
-        if (response.status !== 201) {
+        if (!response.data.insertedId) {
           await Swal.fire({
             icon: "error",
             title: "Booking Failed",

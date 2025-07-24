@@ -6,7 +6,7 @@
 
 ## 🌐 Live Demo
 
-- **Production URL**: [https://](https://)
+- **Production URL**: [https://edusync-bce10.web.app/](https://edusync-bce10.web.app/)
 
 ---
 
