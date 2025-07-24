@@ -26,6 +26,7 @@ import AllSessions from "../pages/AdminDashboard/AllSessions/AllSessions";
 import ManageMaterials from "../pages/AdminDashboard/ManageMaterials/ManageMaterials";
 import TutorsPage from "../pages/TutorsPage/TutorsPage";
 import PaymentPage from "../pages/Payment/Payment";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        path: "profile",
+        element: <ProfilePage />,
+      },
       // stripe payment
       {
         path: "payment/:id",

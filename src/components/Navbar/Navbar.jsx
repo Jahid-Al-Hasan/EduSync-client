@@ -11,8 +11,6 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
-  //   console.log(user);
-
   const handleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };

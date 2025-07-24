@@ -74,7 +74,6 @@ const AllSessions = () => {
       rejectionReason,
       rejectionFeedback,
     }) => {
-      console.log(sessionId);
       const { data } = await axiosInstance.patch(
         `/api/sessions/${sessionId}/reject`,
         {
