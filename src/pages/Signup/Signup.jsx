@@ -78,8 +78,6 @@ const Signup = () => {
         email: data.email,
       });
 
-      console.log(jwt);
-
       if (!jwt) {
         Swal.fire("JWT token generation failed");
         return;

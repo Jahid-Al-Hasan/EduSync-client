@@ -48,9 +48,23 @@ const Navbar = () => {
           Study Sessions
         </NavLink>
       </li>
-      {user && (
+      {user?.role === "admin" && (
         <li>
-          <NavLink to="/dashboard" className="font-semibold">
+          <NavLink to="/dashboard/manage-users" className="font-semibold">
+            Dashboard
+          </NavLink>
+        </li>
+      )}
+      {user?.role === "tutor" && (
+        <li>
+          <NavLink to="/dashboard/my-sessions" className="font-semibold">
+            Dashboard
+          </NavLink>
+        </li>
+      )}
+      {user?.role === "student" && (
+        <li>
+          <NavLink to="/dashboard/booked-sessions" className="font-semibold">
             Dashboard
           </NavLink>
         </li>

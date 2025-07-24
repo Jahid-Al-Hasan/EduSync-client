@@ -24,6 +24,7 @@ import AdminRoute from "../routes/AdminRoute";
 import ManageUsers from "../pages/AdminDashboard/ManageUsers/ManageUsers";
 import AllSessions from "../pages/AdminDashboard/AllSessions/AllSessions";
 import ManageMaterials from "../pages/AdminDashboard/ManageMaterials/ManageMaterials";
+import TutorsPage from "../pages/TutorsPage/TutorsPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       { index: true, Component: Home },
+      { path: "tutors", Component: TutorsPage },
       { path: "study-sessions/", Component: StudySessionsPage },
       { path: "sessions/:id", Component: SessionDetailsPage },
       { path: "/forbidden", Component: ForbiddenPage },

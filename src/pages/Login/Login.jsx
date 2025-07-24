@@ -122,7 +122,7 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="you@example.com"
-                className={`input input-bordered w-full ${
+                className={`input input-bordered flex-1 w-full ${
                   errors.email ? "input-error" : ""
                 }`}
                 {...register("email", {
@@ -164,7 +164,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-300"
+                  className="absolute z-20 right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-300"
                   tabIndex={-1}
                 >
                   {showPassword ? (

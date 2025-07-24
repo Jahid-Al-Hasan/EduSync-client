@@ -8,6 +8,7 @@ import {
   DollarSign,
   Users,
 } from "lucide-react";
+import { Link } from "react-router";
 
 const StudySessionCards = () => {
   const axiosInstance = useAxios();
@@ -102,7 +103,7 @@ const SessionCard = ({ session }) => {
           <span className="font-medium">{session.tutorName}</span>
         </div>
 
-        <p className="mt-2 text-gray-600 line-clamp-3">{session.description}</p>
+        <p className="opacity-80 mt-2 line-clamp-3">{session.description}</p>
 
         <div className="mt-4 space-y-2 text-sm flex-grow">
           <div className="flex items-center gap-2">
@@ -134,7 +135,9 @@ const SessionCard = ({ session }) => {
         </div>
 
         <div className="card-actions justify-end mt-4">
-          <button className="btn btn-primary btn-sm">Read More</button>
+          <Link to={`/sessions/${session._id}`}>
+            <button className="btn btn-primary btn-sm">Read More</button>{" "}
+          </Link>
         </div>
       </div>
     </div>

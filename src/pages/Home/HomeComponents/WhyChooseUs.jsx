@@ -56,10 +56,7 @@ const WhyWeAreBest = () => {
         >
           Why Choose Our Platform
         </motion.h2>
-        <motion.p
-          className="text-sm mt-2 text-gray-500"
-          variants={itemVariants}
-        >
+        <motion.p className="text-sm mt-2" variants={itemVariants}>
           TRANSFORMING EDUCATION THROUGH COLLABORATION
         </motion.p>
       </motion.div>
@@ -79,14 +76,14 @@ const WhyWeAreBest = () => {
           >
             Collaborative Learning <br /> Redefined
           </motion.h3>
-          <motion.p className="mt-4 mb-6 text-gray-600" variants={itemVariants}>
+          <motion.p className="mt-4 mb-6" variants={itemVariants}>
             Our platform connects students with expert tutors and peers to
             create an engaging learning environment that adapts to your schedule
             and learning style.
           </motion.p>
           <motion.ul className="space-y-4" variants={containerVariants}>
             <motion.li
-              className="flex items-center gap-2 text-gray-700"
+              className="flex items-center gap-2"
               variants={itemVariants}
               whileHover={{ x: 5 }}
             >
@@ -94,7 +91,7 @@ const WhyWeAreBest = () => {
               Learning Sessions
             </motion.li>
             <motion.li
-              className="flex items-center gap-2 text-gray-700"
+              className="flex items-center gap-2"
               variants={itemVariants}
               whileHover={{ x: 5 }}
             >
@@ -102,7 +99,7 @@ const WhyWeAreBest = () => {
               Study Materials
             </motion.li>
             <motion.li
-              className="flex items-center gap-2 text-gray-700"
+              className="flex items-center gap-2"
               variants={itemVariants}
               whileHover={{ x: 5 }}
             >
@@ -110,7 +107,7 @@ const WhyWeAreBest = () => {
               Collaboration
             </motion.li>
             <motion.li
-              className="flex items-center gap-2 text-gray-700"
+              className="flex items-center gap-2"
               variants={itemVariants}
               whileHover={{ x: 5 }}
             >

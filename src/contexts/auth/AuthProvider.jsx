@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
   const profileUpdate = async (displayName, photoURL) => {
     setLoading(true);
     try {
-      console.log(displayName, photoURL, auth.currentUser);
       await updateProfile(auth.currentUser, {
         displayName,
         photoURL,

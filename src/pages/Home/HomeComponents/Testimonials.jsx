@@ -37,7 +37,7 @@ const Testimonials = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">What Our Students Say</h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="opacity-60 text-base lg:text-lg max-w-3xl mx-auto">
             Join thousands of students who have accelerated their learning with
             our platform.
           </p>
@@ -47,7 +47,7 @@ const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
-              className="card bg-base-100 shadow-lg hover:shadow-xl border border-base-200"
+              className="card bg-base-200 shadow-lg hover:shadow-xl border border-base-300 "
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
@@ -60,7 +60,7 @@ const Testimonials = () => {
                   ))}
                 </div>
                 <Quote className="h-8 w-8 text-primary opacity-20 mb-2" />
-                <p className="italic text-gray-700 mb-6">
+                <p className="opacity-90 italic mb-6">
                   "{testimonial.content}"
                 </p>
                 <div className="flex items-center gap-4 mt-auto">
@@ -71,7 +71,7 @@ const Testimonials = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-500">{testimonial.role}</p>
+                    <p className="text-sm">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
