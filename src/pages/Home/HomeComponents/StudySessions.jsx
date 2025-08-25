@@ -63,9 +63,9 @@ const StudySessionCards = () => {
           Available Study Sessions
         </h2>
         <motion.p
-          className="text-center text-base md:text-lg mt-4 mb-10 text-gray-500"
+          className="text-center text-lg mt-4 mb-10"
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 0.8, y: 0 }}
           transition={{ delay: 0.1, duration: 1 }}
           viewport={{ once: true }}
         >

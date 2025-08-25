@@ -3,6 +3,7 @@ import Banner from "../../components/Banner/Banner.jsx";
 import StudySessions from "./HomeComponents/StudySessions.jsx";
 import WhyChooseUs from "./HomeComponents/WhyChooseUs.jsx";
 import Testimonials from "./HomeComponents/Testimonials.jsx";
+import HowItWorks from "./HomeComponents/HowItWorks.jsx";
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <Banner />
       <WhyChooseUs />
       <StudySessions />
+      <HowItWorks />
       <Testimonials />
     </div>
   );

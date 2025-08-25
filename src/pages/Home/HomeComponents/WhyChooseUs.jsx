@@ -20,7 +20,7 @@ const WhyWeAreBest = () => {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
-      opacity: 1,
+      opacity: 0.8,
       transition: {
         duration: 0.5,
       },
@@ -56,10 +56,7 @@ const WhyWeAreBest = () => {
         >
           Why Choose Our Platform
         </motion.h2>
-        <motion.p
-          className="text-base md:text-lg mt-2 text-gray-500"
-          variants={itemVariants}
-        >
+        <motion.p className="text-lg mt-2" variants={itemVariants}>
           Transforming Education Through Collaboration
         </motion.p>
       </motion.div>
