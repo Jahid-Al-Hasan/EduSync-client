@@ -5,6 +5,10 @@
   themes: light --default, dark --prefersdark;
 }
 
+:root {
+  font-size: 16px;
+}
+
 @plugin "daisyui/theme" {
   /* Light Theme */
   name: "light";

@@ -41,7 +41,7 @@ const WhyWeAreBest = () => {
   };
 
   return (
-    <section className="py-16 px-4 md:px-20 bg-base-100">
+    <section className="max-w-7xl mx-auto py-16 px-4 bg-base-100">
       {/* Top Heading */}
       <motion.div
         className="text-center mb-12"
@@ -56,8 +56,11 @@ const WhyWeAreBest = () => {
         >
           Why Choose Our Platform
         </motion.h2>
-        <motion.p className="text-sm mt-2" variants={itemVariants}>
-          TRANSFORMING EDUCATION THROUGH COLLABORATION
+        <motion.p
+          className="text-base md:text-lg mt-2 text-gray-500"
+          variants={itemVariants}
+        >
+          Transforming Education Through Collaboration
         </motion.p>
       </motion.div>
 
@@ -69,6 +72,7 @@ const WhyWeAreBest = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
+          className="order-2 md:order-1"
         >
           <motion.h3
             className="text-2xl md:text-3xl font-bold"
@@ -128,7 +132,7 @@ const WhyWeAreBest = () => {
         </motion.div>
 
         {/* Right Images */}
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-4 order-1 md:order-2">
           <motion.div
             className="w-48 md:w-56 h-72 rounded-2xl overflow-hidden relative shadow-lg"
             custom={0}

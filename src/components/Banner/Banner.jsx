@@ -35,19 +35,19 @@ const Banner = () => {
         }}
       ></div>
 
-      <div className="hero-content text-center text-neutral-content relative z-10">
-        <div className="max-w-4xl">
+      <div className="hero-content min-h-[calc(100vh-64px)] text-center text-neutral-content relative z-10">
+        <div className="max-w-4xl mx-auto">
           <motion.h1
-            className="mb-5 text-4xl md:text-6xl font-bold"
+            className="mb-5 text-3xl md:text-4xl lg:text-5xl font-bold"
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Elevate Your Learning Experience
+            Elevate Your <br /> Learning Experience
           </motion.h1>
 
           <motion.p
-            className="mb-8 text-lg md:text-xl"
+            className="mb-8 text-base md:text-lg"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}

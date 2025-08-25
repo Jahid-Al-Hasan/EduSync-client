@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import useAxios from "../../../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -58,13 +59,30 @@ const StudySessionCards = () => {
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 bg-base-200">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-center">
           Available Study Sessions
         </h2>
+        <motion.p
+          className="text-center text-base md:text-lg mt-4 mb-10 text-gray-500"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 1 }}
+          viewport={{ once: true }}
+        >
+          Join ongoing study sessions and accelerate your learning journey
+        </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {ongoingSessions.map((session) => (
-            <SessionCard key={session._id} session={session} />
+            <motion.div
+              key={session._id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: session._id * 0.1, duration: 1 }}
+              viewport={{ once: true }}
+            >
+              <SessionCard session={session} />
+            </motion.div>
           ))}
         </div>
       </div>
