@@ -3,7 +3,12 @@ import { ThemeContext } from "./ThemeContext";
 
 const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("theme") || "light";
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+      .matches
+      ? "dark"
+      : "light";
+
+    return localStorage.getItem("theme") || systemTheme || "light";
   });
 
   useEffect(() => {
