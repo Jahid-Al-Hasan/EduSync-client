@@ -204,17 +204,22 @@ const Navbar = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <FaUserCircle className="w-full h-full text-secondary" />
+                    <FaUserCircle className="w-full h-full text-primary" />
                   )}
                 </div>
               </div>
-              <button
-                tabIndex={0}
-                onClick={() => handleLogout()}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 text-accent shadow"
-              >
-                Logout
-              </button>
+              <div className="menu dropdown-content bg-base-200 rounded-box z-1 text-primary shadow">
+                <h1 className="w-32 p-4 font-semibold">{user?.displayName}</h1>
+                <div className="w-full flex justify-center mb-4">
+                  <button
+                    tabIndex={0}
+                    onClick={() => handleLogout()}
+                    className="btn btn-error btn-outline cursor-pointer btn-sm w-fit"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
