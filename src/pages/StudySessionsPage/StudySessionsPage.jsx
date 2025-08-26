@@ -61,7 +61,7 @@ const StudySessionsPage = () => {
   }
 
   return (
-    <div className="max-w-7x mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <h1 className="text-2xl lg:text-3xl font-bold">
           Available Study Sessions

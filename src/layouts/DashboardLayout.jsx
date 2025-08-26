@@ -118,9 +118,19 @@ const DashboardLayout = () => {
       {/* Tutor specific routes */}
       {role === "tutor" && (
         <>
-          <li className="menu-title">
-            <span>Teaching Dashboard</span>
+          <div className="divider"></div>
+
+          <li>
+            <NavLink
+              to="/dashboard/tutor-dashboard"
+              className="flex items-center gap-3"
+            >
+              <LayoutDashboard className="w-5 h-5" />
+              Tutor Dashboard
+              <span className="badge badge-sm badge-info ml-auto">New</span>
+            </NavLink>
           </li>
+
           <li>
             <NavLink
               to="/dashboard/create-session"

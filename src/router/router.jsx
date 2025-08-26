@@ -28,6 +28,7 @@ import TutorsPage from "../pages/TutorsPage/TutorsPage";
 import PaymentPage from "../pages/Payment/Payment";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import AdminDashboard from "../pages/AdminDashboard/Dashboard/Dashboard";
+import TutorDashboard from "../pages/TutorDashboard/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,14 @@ const router = createBrowserRouter([
         ),
       },
       // tutor routes
+      {
+        path: "tutor-dashboard",
+        element: (
+          <TutorRoute>
+            <TutorDashboard />
+          </TutorRoute>
+        ),
+      },
       {
         path: "create-session",
         element: (
