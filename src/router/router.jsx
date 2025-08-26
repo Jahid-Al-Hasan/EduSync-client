@@ -29,6 +29,7 @@ import PaymentPage from "../pages/Payment/Payment";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import AdminDashboard from "../pages/AdminDashboard/Dashboard/Dashboard";
 import TutorDashboard from "../pages/TutorDashboard/Dashboard/Dashboard";
+import StudentDashboard from "../pages/StudentDashboard/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,14 @@ const router = createBrowserRouter([
         ),
       },
       // student routes
+      {
+        path: "student-dashboard",
+        element: (
+          <StudentRoute>
+            <StudentDashboard />
+          </StudentRoute>
+        ),
+      },
       {
         path: "booked-sessions",
         element: (

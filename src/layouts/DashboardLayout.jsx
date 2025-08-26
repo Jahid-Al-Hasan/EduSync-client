@@ -73,8 +73,17 @@ const DashboardLayout = () => {
       {/* Student-specific routes */}
       {role === "student" && (
         <>
-          <li className="menu-title">
-            <span>Student Dashboard</span>
+          <div className="divider"></div>
+
+          <li>
+            <NavLink
+              to="/dashboard/student-dashboard"
+              className="flex items-center gap-3"
+            >
+              <LayoutDashboard className="w-5 h-5" />
+              Student Dashboard
+              <span className="badge badge-sm badge-info ml-auto">New</span>
+            </NavLink>
           </li>
           <li>
             <NavLink
