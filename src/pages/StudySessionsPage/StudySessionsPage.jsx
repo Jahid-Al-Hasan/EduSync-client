@@ -16,6 +16,7 @@ const StudySessionsPage = () => {
   const axiosInstance = useAxios();
   const currentDate = new Date();
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState("");
   const sessionsPerPage = 6;
 
   const {
@@ -31,10 +32,17 @@ const StudySessionsPage = () => {
     },
   });
 
+  // sort sessions by price
+  const sortedSessions = [...sessions].sort((a, b) => {
+    if (sortOrder === "asc") return a.registrationFee - b.registrationFee;
+    if (sortOrder === "desc") return b.registrationFee - a.registrationFee;
+    return 0;
+  });
+
   // Calculate pagination
   const indexOfLastSession = currentPage * sessionsPerPage;
   const indexOfFirstSession = indexOfLastSession - sessionsPerPage;
-  const currentSessions = sessions.slice(
+  const currentSessions = sortedSessions.slice(
     indexOfFirstSession,
     indexOfLastSession
   );
@@ -54,9 +62,25 @@ const StudySessionsPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl lg:text-3xl font-bold mb-8">
-        Available Study Sessions
-      </h1>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+        <h1 className="text-2xl lg:text-3xl font-bold">
+          Available Study Sessions
+        </h1>
+
+        {/* Sorting Dropdown */}
+        <select
+          value={sortOrder}
+          onChange={(e) => {
+            setSortOrder(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="select select-bordered w-40 md:w-52"
+        >
+          <option value="default">Newest first</option>
+          <option value="asc">Price: Low to High</option>
+          <option value="desc">Price: High to Low</option>
+        </select>
+      </div>
 
       {sessions.length === 0 ? (
         <div className="text-center py-12">
@@ -79,7 +103,12 @@ const StudySessionsPage = () => {
                   className="card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"
                 >
                   <div className="card-body">
-                    <h2 className="card-title">{session.title}</h2>
+                    <div className="flex justify-between items-center flex-wrap">
+                      <h2 className="card-title">{session.title}</h2>
+                      <h2 className="card-title text-primary">
+                        {session.registrationFee} $
+                      </h2>
+                    </div>
                     <div className="flex items-center gap-2">
                       <User className="w-4 h-4" />
                       <span>Tutor: {session.tutorName}</span>
