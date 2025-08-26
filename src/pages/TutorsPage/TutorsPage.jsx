@@ -33,7 +33,7 @@ const TutorsPage = () => {
   if (isError) return <ErrorPage />;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -57,7 +57,7 @@ const TutorsPage = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
             viewport={{ once: true, margin: "-50px" }}
-            className="card bg-base-200 border border-primary shadow-lg hover:shadow-xl transition-shadow"
+            className="card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"
           >
             <div className="card-body">
               <div className="flex items-start gap-4 mb-4">
