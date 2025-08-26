@@ -27,6 +27,7 @@ import ManageMaterials from "../pages/AdminDashboard/ManageMaterials/ManageMater
 import TutorsPage from "../pages/TutorsPage/TutorsPage";
 import PaymentPage from "../pages/Payment/Payment";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import AdminDashboard from "../pages/AdminDashboard/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -145,6 +146,14 @@ const router = createBrowserRouter([
         ),
       },
       // admin route
+      {
+        path: "admin-dashboard",
+        element: (
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        ),
+      },
       {
         path: "manage-users",
         element: (

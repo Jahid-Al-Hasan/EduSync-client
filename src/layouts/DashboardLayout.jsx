@@ -23,6 +23,7 @@ import {
   LibraryBig,
   FileSearch,
   Megaphone,
+  LayoutDashboard,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import Swal from "sweetalert2";
@@ -162,8 +163,17 @@ const DashboardLayout = () => {
       {/* Admin-only routes */}
       {role === "admin" && (
         <>
-          <li className="menu-title">
-            <span>Admin Dashboard</span>
+          <div className="divider"></div>
+
+          <li>
+            <NavLink
+              to="/dashboard/admin-dashboard"
+              className="flex items-center gap-3"
+            >
+              <LayoutDashboard className="w-5 h-5" />
+              Admin Dashboard
+              <span className="badge badge-sm badge-info ml-auto">New</span>
+            </NavLink>
           </li>
 
           {/* User Management */}
@@ -174,7 +184,6 @@ const DashboardLayout = () => {
             >
               <UserCog className="w-5 h-5" />
               Manage Users
-              <span className="badge badge-sm badge-info ml-auto">New</span>
             </NavLink>
           </li>
 
